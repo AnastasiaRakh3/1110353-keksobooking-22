@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Anastasiia Rakhmatova](https://up.htmlacademy.ru/javascript/22/user/1110353).
-* Наставник: `[Дмитрий Мирошниченко](htmlacademy.ru/profile/id18034)`.
+* Наставник: [Дмитрий Мирошниченко](https://htmlacademy.ru/profile/id591417).
 
 ---
 
