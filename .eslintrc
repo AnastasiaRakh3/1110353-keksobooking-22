@@ -12,4 +12,4 @@ extends:
   "htmlacademy/vanilla"
 
 rules:
-prefer-const: error
+  prefer-const: error
