@@ -27,6 +27,8 @@ const getRandomArray = function (elements) {
     const newElement = getRandomElement();
     if (randomArray.some((value) => {return value !== newElement;})) {
     randomArray.push(newElement);
+  } else if (i===0) {
+    randomArray.push(newElement);
   }
   return randomArray;
 };
