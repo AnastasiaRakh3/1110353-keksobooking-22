@@ -40,7 +40,7 @@ const createAdvertising = function () {
     },
     offer: {
       title: 'Лучшее предложение',
-      address: "" + location(x) + location(y),
+      address: "" + location[x] + location[y],
       price: getRandomInteger(0, 10000),
       type: getRandomElement(types),
       guests: getRandomInteger(0, 5),
