@@ -1,60 +1,80 @@
+const TYPES = ['palace', 'flat', 'house', 'bungalow'];
+const TIMES = ['12:00', '13:00', '14:00'];
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
+const PHOTOS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
+];
+
 const getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
-getRandomInteger(1, 9);
 
 const getRandomLocation = function (min, max, numbersAfterPoint = 5) {
   return +(Math.random() * (max - min) + min).toFixed(numbersAfterPoint);
 };
 
-getRandomLocation(0, 7, 5);
-
-const getRandomAvatar = getRandomInteger (1, 8);
-const types = ["palace", "flat", "house", "bungalow"];
-const times = ["12:00", "13:00", "14:00"];
-const features = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
-const photos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-
 const getRandomElement = function (elements) {
-  const elementIndex = Math.floor(Math.random() * elements.length);
+  const elementIndex = getRandomInteger(0, elements.length - 1);
   return elements[elementIndex];
 };
 
-const getRandomArray = function (elements) {
-  let randomArray = [];
-  for (let i = 0; i < elements.length; i++) {
-    const newElement = getRandomElement();
-    if (randomArray.some((value) => {return value !== newElement;})) {
-    randomArray.push(newElement);
-  } else if (i===0) {
-    randomArray.push(newElement);
+const shuffle = function (elements) {
+  for (let i = elements.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * i);
+    const temp = elements[i];
+    elements[i] = elements[j];
+    elements[j] = temp;
   }
-  return randomArray;
+  return elements;
+};
+
+const getRandomArray = function (elements) {
+  shuffle(elements);
+  return elements.slice(0, getRandomInteger(1, elements.length));
 };
 
 const createAdvertising = function () {
+  const x = getRandomLocation(35.65, 35.7);
+  const y = getRandomLocation(139.7, 139.8);
   return {
     author: {
-      avatar: 'img/avatars/user' + 0 + getRandomAvatar + '.png',
+      avatar: 'img/avatars/user' + 0 + getRandomInteger(1, 8) + '.png',
     },
     offer: {
       title: 'Лучшее предложение',
-      address: "" + location[x] + location[y],
-      price: getRandomInteger(0, 10000),
-      type: getRandomElement(types),
-      guests: getRandomInteger(0, 5),
-      checkin: getRandomElement(times),
-      checkout: getRandomElement(times),
-      features: getRandomArray(features),
-      description: "Номер класса люкс с видом на море",
-      photos: getRandomArray(photos),
+      address: `${x}, ${y}`,
+      price: getRandomInteger(2000, 10000),
+      type: getRandomElement(TYPES),
+      rooms: getRandomInteger(1, 5),
+      guests: getRandomInteger(1, 5),
+      checkin: getRandomElement(TIMES),
+      checkout: getRandomElement(TIMES),
+      features: getRandomArray(FEATURES),
+      description: 'Номер класса люкс с видом на море',
+      photos: getRandomArray(PHOTOS),
     },
     location: {
-      x: getRandomLocation(35.65000, 35.70000),
-      y: getRandomLocation(139.70000, 139.80000),
+      x,
+      y,
     },
-  }
+  };
 };
 
-createAdvertising();
+const getRandomAdvertisings = function () {
+  const advertisings = [];
+  for (let i = 0; i < 10; i++) {
+    advertisings.push(createAdvertising());
+  }
+  return advertisings;
+};
+
+getRandomAdvertisings();
