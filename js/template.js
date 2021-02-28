@@ -3,6 +3,7 @@ import { createAdvertising } from './data.js';
 const firstAd = createAdvertising();
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
+const mapCanvas = document.querySelector('.map__canvas');
 
 const RoomTypes = {
   FLAT: 'Квартира',
@@ -15,9 +16,9 @@ const translateType = function (ad) {
   return RoomTypes[ad.offer.type.toUpperCase()];
 };
 
-const featuresFragment = document.createDocumentFragment();
-
 const getFeatures = function (array) {
+  const featuresFragment = document.createDocumentFragment();
+
   array.forEach((value) => {
     const newFeatureElement = document.createElement('li');
     newFeatureElement.classList.add('popup__feature');
@@ -30,9 +31,9 @@ const getFeatures = function (array) {
   return featuresFragment;
 };
 
-const photosFragment = document.createDocumentFragment();
-
 const getPhotos = function (array) {
+  const photosFragment = document.createDocumentFragment();
+
   array.forEach((value) => {
     const newPhotoElement = document.createElement('img');
     newPhotoElement.classList.add('popup__photo');
@@ -67,8 +68,8 @@ const createCard = function (ad) {
   timeCardOffer.textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
   descriptionCardOffer.textContent = ad.offer.description;
   avatarCardOffer.src = ad.author.avatar;
-  
-  const featuresListCardOffer = document.querySelector('.popup__features');
+
+  const featuresListCardOffer = cardOffer.querySelector('.popup__features');
   featuresListCardOffer.innerHTML = '';
   const photosCardOffer = cardOffer.querySelector('.popup__photos');
   photosCardOffer.innerHTML = '';
@@ -79,6 +80,4 @@ const createCard = function (ad) {
 };
 
 const firstAdCard = createCard(firstAd);
-
-const mapCanvas = document.querySelector('.map__canvas');
 mapCanvas.appendChild(firstAdCard);
