@@ -48,7 +48,7 @@ const createAdvertising = function () {
 
 const getRandomAdvertisings = function () {
   const advertisings = [];
-  for (let i = 0; i < ADS_COUNT.length; i++) {
+  for (let i = 0; i < ADS_COUNT; i++) {
     advertisings.push(createAdvertising());
   }
   return advertisings;

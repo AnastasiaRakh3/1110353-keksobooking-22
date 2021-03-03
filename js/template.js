@@ -1,6 +1,7 @@
-import { createAdvertising } from './data.js';
+// import { createAdvertising } from './data.js';
+export {createCard};
 
-const firstAd = createAdvertising();
+// const firstAd = createAdvertising();
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
 
@@ -78,6 +79,4 @@ const createCard = function (ad) {
   return cardOffer;
 };
 
-const firstAdCard = createCard(firstAd);
-firstAdCard;
 

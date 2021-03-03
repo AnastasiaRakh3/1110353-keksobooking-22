@@ -1,5 +1,7 @@
-import {getRandomAdvertisings} from './data.js';
+import { getRandomAdvertisings } from './data.js';
+import { createCard } from './template.js';
 
+const leaflet = window.L;
 const randomAdvertisings = getRandomAdvertisings();
 const addForm = document.querySelector('.ad-form');
 const filtersMapForm = document.querySelector('.map__filters');
@@ -35,28 +37,31 @@ const makeAbledForms = function () {
 
 // Создаю карту и событие инициализации карты
 
-const map = L.map(mapCanvas)
+const map = leaflet
+  .map(mapCanvas)
   .on('load', () => {
-    makeAbledForms()
+    makeAbledForms();
   })
   .setView(
     {
-      lat: 35.4122,
-      lng: 139.413,
+      lat: 35.685471,
+      lng: 139.753590,
     },
-    10,
+    12,
   );
 
 // Создаю слой и добавляю на карту
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map);
+leaflet
+  .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  })
+  .addTo(map);
 
 // Создаю иконку на главный пин
 
-const mainPinIcon = L.icon({
+const mainPinIcon = leaflet.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
@@ -64,10 +69,10 @@ const mainPinIcon = L.icon({
 
 // Создаю главный пин и добавляю на карту
 
-const mainPinMarker = L.marker(
+const mainPinMarker = leaflet.marker(
   {
-    lat: 35.4122,
-    lng: 139.413,
+    lat: 35.685471,
+    lng: 139.753590,
   },
   {
     draggable: true,
@@ -77,24 +82,24 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-// Добавляю обработчик события маркета
+// Добавляю обработчик события маркера
 
 mainPinMarker.on('moveend', (evt) => {
-  console.log(evt.target.getLatLng());
+  evt.target.getLatLng();
 });
 
-mainPinMarker.remove();
+// mainPinMarker.remove();
 
-// Добавляю обычные метки с иконками на карту??? Проблемы с локацией
+// Добавляю обычные метки с иконками на карту
 
 randomAdvertisings.forEach((add) => {
-  const icon = L.icon({
+  const icon = leaflet.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
-  const marker = L.marker(
+  const marker = leaflet.marker(
     {
       lat: add.location.x,
       lng: add.location.y,
@@ -104,5 +109,11 @@ randomAdvertisings.forEach((add) => {
     },
   );
 
-  marker.addTo(map);
+  marker
+    .addTo(map)
+    .bindPopup(
+      createCard(add),
+      {
+        keepInView: true,
+      });
 });
