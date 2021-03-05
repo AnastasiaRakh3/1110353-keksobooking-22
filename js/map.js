@@ -5,37 +5,29 @@ const leaflet = window.L;
 const randomAdvertisings = getRandomAdvertisings();
 const addForm = document.querySelector('.ad-form');
 const filtersMapForm = document.querySelector('.map__filters');
+const formFields = document.querySelectorAll('selector, input');
 const mapCanvas = document.querySelector('.map__canvas');
 
-// Даективировать формы
 
 const makeDisabledForms = function () {
   addForm.classList.add('ad-form--disabled');
   filtersMapForm.classList.add('map__filters--disabled');
-  for (let i = 0; i < addForm.elements.length; i++) {
-    addForm.elements[i].disabled = true;
-  }
-  for (let i = 0; i < filtersMapForm.elements.length; i++) {
-    filtersMapForm.elements[i].disabled = true;
+
+  for (let i = 0; i < formFields.length; i++) {
+    formFields[i].disabled = true;
   }
 };
 
 makeDisabledForms();
 
-// Активировать формы
-
 const makeAbledForms = function () {
   addForm.classList.remove('ad-form--disabled');
   filtersMapForm.classList.remove('map__filters--disabled');
-  for (let i = 0; i < addForm.elements.length; i++) {
-    addForm.elements[i].disabled = false;
-  }
-  for (let i = 0; i < filtersMapForm.elements.length; i++) {
-    filtersMapForm.elements[i].disabled = false;
+
+  for (let i = 0; i < formFields.length; i++) {
+    formFields[i].disabled = false;
   }
 };
-
-// Создаю карту и событие инициализации карты
 
 const map = leaflet
   .map(mapCanvas)
@@ -50,8 +42,6 @@ const map = leaflet
     12,
   );
 
-// Создаю слой и добавляю на карту
-
 leaflet
   .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
@@ -59,15 +49,11 @@ leaflet
   })
   .addTo(map);
 
-// Создаю иконку на главный пин
-
 const mainPinIcon = leaflet.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
-
-// Создаю главный пин и добавляю на карту
 
 const mainPinMarker = leaflet.marker(
   {
@@ -82,15 +68,9 @@ const mainPinMarker = leaflet.marker(
 
 mainPinMarker.addTo(map);
 
-// Добавляю обработчик события маркера
-
 mainPinMarker.on('moveend', (evt) => {
   evt.target.getLatLng();
 });
-
-// mainPinMarker.remove();
-
-// Добавляю обычные метки с иконками на карту
 
 randomAdvertisings.forEach((add) => {
   const icon = leaflet.icon({
