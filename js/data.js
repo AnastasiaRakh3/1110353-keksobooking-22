@@ -1,6 +1,5 @@
 'use strict';
 import {getRandomInteger, getRandomLocation, getRandomElement, getRandomArray} from './util.js';
-export {createAdvertising, getRandomAdvertisings};
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow'];
 const TIMES = ['12:00', '13:00', '14:00'];
@@ -48,9 +47,10 @@ const createAdvertising = function () {
 
 const getRandomAdvertisings = function () {
   const advertisings = [];
-  for (let i = 0; i < ADS_COUNT.length; i++) {
+  for (let i = 0; i < ADS_COUNT; i++) {
     advertisings.push(createAdvertising());
   }
   return advertisings;
 };
 
+export {createAdvertising, getRandomAdvertisings};

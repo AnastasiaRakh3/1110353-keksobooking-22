@@ -1,9 +1,6 @@
-import { createAdvertising } from './data.js';
-
-const firstAd = createAdvertising();
+'use strict';
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
-const mapCanvas = document.querySelector('.map__canvas');
 
 const RoomTypes = {
   FLAT: 'Квартира',
@@ -79,5 +76,4 @@ const createCard = function (ad) {
   return cardOffer;
 };
 
-const firstAdCard = createCard(firstAd);
-mapCanvas.appendChild(firstAdCard);
+export {createCard};
