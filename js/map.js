@@ -1,3 +1,4 @@
+'use strict';
 import { getRandomAdvertisings } from './data.js';
 import { createCard } from './template.js';
 
@@ -5,7 +6,7 @@ const leaflet = window.L;
 const randomAdvertisings = getRandomAdvertisings();
 const addForm = document.querySelector('.ad-form');
 const filtersMapForm = document.querySelector('.map__filters');
-const formFields = document.querySelectorAll('selector, input');
+const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
 const mapCanvas = document.querySelector('.map__canvas');
 
 
