@@ -1,9 +1,9 @@
 'use strict';
-import { getRandomAdvertisings } from './data.js';
+// import { getRandomAdvertisings } from './data.js';
 import { createCard } from './template.js';
 
 const leaflet = window.L;
-const randomAdvertisings = getRandomAdvertisings();
+// const randomAdvertisings = getRandomAdvertisings();
 const addForm = document.querySelector('.ad-form');
 const filtersMapForm = document.querySelector('.map__filters');
 const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
@@ -73,28 +73,33 @@ mainPinMarker.on('moveend', (evt) => {
   evt.target.getLatLng();
 });
 
-randomAdvertisings.forEach((add) => {
-  const icon = leaflet.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+const initMap = (serverOffers) => {
+  serverOffers.forEach((add) => {
+    const icon = leaflet.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  const marker = leaflet.marker(
-    {
-      lat: add.location.x,
-      lng: add.location.y,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(
-      createCard(add),
+    const marker = leaflet.marker(
       {
-        keepInView: true,
-      });
-});
+        lat: add.location.lat,
+        lng: add.location.lng,
+      },
+      {
+        icon,
+      },
+    );
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        createCard(add),
+        {
+          keepInView: true,
+        });
+  });
+}
+
+
+export {addForm, initMap};
