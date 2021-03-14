@@ -1,5 +1,5 @@
 'use strict';
-import {addForm} from './map.js';
+import {addForm, showLatLng} from './map.js';
 import {sendData} from './api.js';
 import {showErrorBlock} from './template.js';
 
@@ -13,7 +13,8 @@ const capacityinput = addForm.querySelector('#capacity');
 const formBtnSubmit = addForm.querySelector('.ad-form__submit');
 
 const addressInput = addForm.querySelector('#address');
-addressInput.value = '35.685471,139.753590'
+addressInput.value = '35.685471,139.753590';
+showLatLng(addressInput);
 
 // Валидация полей чекина и чекаута
 

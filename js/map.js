@@ -101,5 +101,12 @@ const initMap = (serverOffers) => {
   });
 }
 
+const showLatLng = (input) => {
+  mainPinMarker.on('moveend', (evt) => {
+    const latLngObj = evt.target.getLatLng();
+    const addressText = `${latLngObj.lat.toFixed(5)}, ${latLngObj.lng.toFixed(5)}`;
+    input.value = addressText;
+  });
+}
 
-export {addForm, initMap};
+export {addForm, initMap, showLatLng};
