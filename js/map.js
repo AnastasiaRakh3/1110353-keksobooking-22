@@ -1,13 +1,16 @@
 'use strict';
-// import { getRandomAdvertisings } from './data.js';
+
 import { createCard } from './template.js';
 
 const leaflet = window.L;
-// const randomAdvertisings = getRandomAdvertisings();
 const addForm = document.querySelector('.ad-form');
 const filtersMapForm = document.querySelector('.map__filters');
 const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
 const mapCanvas = document.querySelector('.map__canvas');
+const TOKYO_CENTER = {
+  lat: 35.685471,
+  lng: 139.753590,
+};
 
 
 const makeDisabledForms = function () {
@@ -37,8 +40,8 @@ const map = leaflet
   })
   .setView(
     {
-      lat: 35.685471,
-      lng: 139.753590,
+      lat: TOKYO_CENTER.lat,
+      lng: TOKYO_CENTER.lng,
     },
     12,
   );
@@ -58,8 +61,8 @@ const mainPinIcon = leaflet.icon({
 
 const mainPinMarker = leaflet.marker(
   {
-    lat: 35.685471,
-    lng: 139.753590,
+    lat: TOKYO_CENTER.lat,
+    lng: TOKYO_CENTER.lng,
   },
   {
     draggable: true,
@@ -109,4 +112,4 @@ const showLatLng = (input) => {
   });
 }
 
-export {addForm, initMap, showLatLng};
+export {addForm, initMap, showLatLng, TOKYO_CENTER};

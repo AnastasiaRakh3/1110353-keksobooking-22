@@ -1,4 +1,5 @@
 'use strict';
+
 import {getRandomInteger, getRandomLocation, getRandomElement, getRandomArray} from './util.js';
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow'];

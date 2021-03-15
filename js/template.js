@@ -1,4 +1,5 @@
 'use strict';
+
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
 const successTemplate = document.querySelector('#success').content;

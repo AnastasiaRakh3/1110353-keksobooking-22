@@ -1,5 +1,6 @@
 'use strict';
-import {addForm, showLatLng} from './map.js';
+
+import {addForm, showLatLng, TOKYO_CENTER} from './map.js';
 import {sendData} from './api.js';
 import {showErrorBlock} from './template.js';
 
@@ -12,8 +13,12 @@ const roomNumberinput = addForm.querySelector('#room_number');
 const capacityinput = addForm.querySelector('#capacity');
 const formBtnSubmit = addForm.querySelector('.ad-form__submit');
 
+const allFormFields = addForm.elements;
+const adFormBtn = addForm.querySelector('.ad-form__submit');
+
 const addressInput = addForm.querySelector('#address');
-addressInput.value = '35.685471,139.753590';
+const addressDefault = `${TOKYO_CENTER.lat.toFixed(5)}, ${TOKYO_CENTER.lng.toFixed(5)}`
+addressInput.value = addressDefault;
 showLatLng(addressInput);
 
 // Валидация полей чекина и чекаута
@@ -48,10 +53,10 @@ timeOutInput.addEventListener('change', synchronizeTimeIn);
 // Валидация полей кол-ва комнат и кол-ва гостей
 
 const checkRoomsGuests = function () {
-  if(Number(capacityinput.value) > Number(roomNumberinput.value) || capacityinput.value === '0' && !(roomNumberinput.value === '100')) {
+  if(Number(capacityinput.value) > Number(roomNumberinput.value)) {
     capacityinput.setCustomValidity('Не допустимый вариант выбора количества гостей для выбранного колличества комнат');
-  } else if(!(capacityinput.value === '0') && roomNumberinput.value === '100') {
-    capacityinput.setCustomValidity('Единственный возможный вариант для 100 комнат - это "не для гостей"');
+  } else if(!(capacityinput.value === '0') && roomNumberinput.value === '100' || capacityinput.value === '0' && !(roomNumberinput.value === '100')) {
+    capacityinput.setCustomValidity('Для этого вариапта только - "100 комнат - не для гостей"');
   }
   else {
     capacityinput.setCustomValidity('');
@@ -62,23 +67,17 @@ formBtnSubmit.addEventListener('click', checkRoomsGuests);
 
 // Проверка на валидацию всей формы, выделяя красной рамкой неправильно введенные поля
 
-
-const checkValidity = function () {
-  const invalidElements = addForm.querySelectorAll('input:invalid, select:invalid');
-  const allElements = addForm.querySelectorAll('input, select');
-
-  for (let i = 0; i < allElements.length; i++){
-    allElements[i].style.border = '1px solid #d9d9d3';
-  }
-
-  if (invalidElements.length) {
-    for (let i = 0; i < invalidElements.length; i++){
-      invalidElements[i].style.border = 'solid 3px red';
-    }
-  }
+for (let i = 0; i < allFormFields.length; i++) {
+  allFormFields[i].addEventListener('invalid', (evt) => {
+    evt.target.style.border = 'solid 3px red';
+  });
 }
 
-addForm.addEventListener('click', checkValidity);
+adFormBtn.addEventListener('click', () => {
+  for (let i = 0; i < allFormFields.length; i++) {
+    allFormFields[i].removeAttribute('style');
+  }
+});
 
 // Отправка форма
 
