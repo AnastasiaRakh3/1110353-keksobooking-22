@@ -1,6 +1,12 @@
 'use strict';
+
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
+const successTemplate = document.querySelector('#success').content;
+const newSuccessTemplate= successTemplate.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content;
+const newErrorTemplate = errorTemplate.querySelector('.error');
+const main = document.querySelector('main');
 
 const RoomTypes = {
   FLAT: 'Квартира',
@@ -76,4 +82,26 @@ const createCard = function (ad) {
   return cardOffer;
 };
 
-export {createCard};
+const showSuccessBlock = function () {
+  const successBlock  = newSuccessTemplate.cloneNode(true);
+
+  main.append(successBlock);
+};
+
+const showErrorBlock = function () {
+  const errorBlock  = newErrorTemplate.cloneNode(true);
+
+  errorBlock.addEventListener('click', function () {
+    errorBlock.remove();
+  });
+
+  window.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      errorBlock.remove();
+    }
+  });
+
+  main.append(errorBlock);
+}
+
+export {createCard, showSuccessBlock, showErrorBlock};

@@ -1,13 +1,16 @@
 'use strict';
-import { getRandomAdvertisings } from './data.js';
+
 import { createCard } from './template.js';
 
 const leaflet = window.L;
-const randomAdvertisings = getRandomAdvertisings();
 const addForm = document.querySelector('.ad-form');
 const filtersMapForm = document.querySelector('.map__filters');
 const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
 const mapCanvas = document.querySelector('.map__canvas');
+const TOKYO_CENTER = {
+  lat: 35.685471,
+  lng: 139.753590,
+};
 
 
 const makeDisabledForms = function () {
@@ -37,8 +40,8 @@ const map = leaflet
   })
   .setView(
     {
-      lat: 35.685471,
-      lng: 139.753590,
+      lat: TOKYO_CENTER.lat,
+      lng: TOKYO_CENTER.lng,
     },
     12,
   );
@@ -58,8 +61,8 @@ const mainPinIcon = leaflet.icon({
 
 const mainPinMarker = leaflet.marker(
   {
-    lat: 35.685471,
-    lng: 139.753590,
+    lat: TOKYO_CENTER.lat,
+    lng: TOKYO_CENTER.lng,
   },
   {
     draggable: true,
@@ -73,28 +76,40 @@ mainPinMarker.on('moveend', (evt) => {
   evt.target.getLatLng();
 });
 
-randomAdvertisings.forEach((add) => {
-  const icon = leaflet.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+const initMap = (serverOffers) => {
+  serverOffers.forEach((add) => {
+    const icon = leaflet.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  const marker = leaflet.marker(
-    {
-      lat: add.location.x,
-      lng: add.location.y,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(
-      createCard(add),
+    const marker = leaflet.marker(
       {
-        keepInView: true,
-      });
-});
+        lat: add.location.lat,
+        lng: add.location.lng,
+      },
+      {
+        icon,
+      },
+    );
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        createCard(add),
+        {
+          keepInView: true,
+        });
+  });
+}
+
+const showLatLng = (input) => {
+  mainPinMarker.on('moveend', (evt) => {
+    const latLngObj = evt.target.getLatLng();
+    const addressText = `${latLngObj.lat.toFixed(5)}, ${latLngObj.lng.toFixed(5)}`;
+    input.value = addressText;
+  });
+}
+
+export {addForm, initMap, showLatLng, TOKYO_CENTER};

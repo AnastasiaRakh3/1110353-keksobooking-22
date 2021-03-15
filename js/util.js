@@ -1,5 +1,4 @@
 'use strict';
-export {getRandomInteger, getRandomLocation, getRandomElement, getRandomArray};
 
 const getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -28,3 +27,6 @@ const getRandomArray = function (elements) {
   shuffle(elements);
   return elements.slice(0, getRandomInteger(1, elements.length));
 };
+
+
+export {getRandomInteger, getRandomLocation, getRandomElement, getRandomArray};

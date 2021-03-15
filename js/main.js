@@ -1,6 +1,12 @@
-import {createAdvertising, getRandomAdvertisings} from './data.js';
-import './map.js'
-import './form.js'
+import { initMap } from './map.js';
+import './form.js';
+import { setUserFormSubmit } from './form.js';
+import {showSuccessBlock} from './template.js';
+import { getData } from './api.js';
 
-createAdvertising();
-getRandomAdvertisings();
+const main = () => {
+  getData(initMap);
+  setUserFormSubmit(showSuccessBlock);
+}
+
+main();
