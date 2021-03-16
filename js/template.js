@@ -3,7 +3,7 @@
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
 const successTemplate = document.querySelector('#success').content;
-const newSuccessTemplate= successTemplate.querySelector('.success');
+const newSuccessTemplate = successTemplate.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content;
 const newErrorTemplate = errorTemplate.querySelector('.error');
 const main = document.querySelector('main');
@@ -14,11 +14,13 @@ const RoomTypes = {
   PALACE: 'Дворец',
 };
 
-//  Создадим функцию, которая преобразует название ключа в нужном формате и возвращает значение ключа
+/** Функция, преобразующая название ключа в нужный формат и возвращая значение ключа */
 
 const translateType = function (ad) {
   return RoomTypes[ad.offer.type.toUpperCase()];
 };
+
+/** Функции, создающие хранилище для созданных удобств и фото */
 
 const getFeatures = function (array) {
   const featuresFragment = document.createDocumentFragment();
@@ -51,6 +53,8 @@ const getPhotos = function (array) {
   return photosFragment;
 };
 
+/** Фукнция, создания карточки объявления */
+
 const createCard = function (ad) {
   const cardOffer = newCardTemplate.cloneNode(true);
 
@@ -74,23 +78,25 @@ const createCard = function (ad) {
   timeCardOffer.textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
   descriptionCardOffer.textContent = ad.offer.description;
   avatarCardOffer.src = ad.author.avatar;
-  featuresListCardOffer.innerHTML = '';
-  photosCardOffer.innerHTML = '';
-  featuresListCardOffer.appendChild(getFeatures(ad.offer.features));
-  photosCardOffer.appendChild(getPhotos(ad.offer.photos));
 
-  if(ad.offer.features.length === 0) {
+  if (ad.offer.features.length === 0) {
     featuresListCardOffer.remove();
+  } else {
+    featuresListCardOffer.innerHTML = '';
+    featuresListCardOffer.appendChild(getFeatures(ad.offer.features));
   }
 
-  if(ad.offer.photos.length === 0) {
+  if (ad.offer.photos.length === 0) {
     photosCardOffer.remove();
+  } else {
+    photosCardOffer.innerHTML = '';
+    photosCardOffer.appendChild(getPhotos(ad.offer.photos));
   }
 
   return cardOffer;
 };
 
-// Фукнции, которые выводят блоки с удачным выполнением и с ошибкой при отправки формы
+/** Фукнции, выводящие блоки с удачным выполнением и с ошибкой при отправке формы */
 
 const closeBlock = (block) => {
   block.addEventListener('click', () => {
@@ -104,24 +110,24 @@ const closeBlock = (block) => {
   });
 };
 
-const showSuccessBlock = function () {
-  const successBlock  = newSuccessTemplate.cloneNode(true);
+const showSuccessBlock = () => {
+  const successBlock = newSuccessTemplate.cloneNode(true);
   successBlock.style.zIndex = 400;
   main.append(successBlock);
   closeBlock(successBlock);
 };
 
-const showErrorBlock = function () {
-  const errorBlock  = newErrorTemplate.cloneNode(true);
+const showErrorBlock = () => {
+  const errorBlock = newErrorTemplate.cloneNode(true);
   errorBlock.style.zIndex = 400;
   main.append(errorBlock);
   closeBlock(errorBlock);
 };
 
-// Фукнция, которые выводит блок с ошибкой при получении данных с сервера
+/** Фукнция, выводящая блок с ошибкой при запросе на получение данных с сервера */
 
 const showErrorBlockGetData = () => {
-  const errorBlock  = newErrorTemplate.cloneNode(true);
+  const errorBlock = newErrorTemplate.cloneNode(true);
   const errorMessage = errorBlock.querySelector('.error__message');
   const errorBtn = errorBlock.querySelector('.error__button');
   errorBtn.remove();
@@ -132,6 +138,6 @@ const showErrorBlockGetData = () => {
 
   // Нужно ли в данном случае закрытие окна?
   closeBlock(errorBlock);
-}
+};
 
-export {createCard, showSuccessBlock, showErrorBlock, showErrorBlockGetData};
+export { createCard, showSuccessBlock, showErrorBlock, showErrorBlockGetData };
