@@ -1,12 +1,11 @@
 import { initMap } from './map.js';
-import './form.js';
-import { setUserFormSubmit } from './form.js';
-import {showSuccessBlock} from './template.js';
 import { getData } from './api.js';
+import { showErrorBlockGetData } from './template.js';
+import { setUserFormSubmit, setAllSuccessActions } from './form.js';
 
 const main = () => {
-  getData(initMap);
-  setUserFormSubmit(showSuccessBlock);
-}
+  getData(initMap, showErrorBlockGetData);
+  setUserFormSubmit(setAllSuccessActions);
+};
 
 main();

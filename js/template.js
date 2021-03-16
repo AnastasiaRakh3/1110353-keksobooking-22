@@ -3,11 +3,10 @@
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
 const successTemplate = document.querySelector('#success').content;
-const newSuccessTemplate= successTemplate.querySelector('.success');
+const newSuccessTemplate = successTemplate.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content;
 const newErrorTemplate = errorTemplate.querySelector('.error');
 const main = document.querySelector('main');
-
 const RoomTypes = {
   FLAT: 'Квартира',
   BUNGALOW: 'Бунгало',
@@ -15,9 +14,13 @@ const RoomTypes = {
   PALACE: 'Дворец',
 };
 
+/** Функция, преобразующая название ключа в нужный формат и возвращая значение ключа */
+
 const translateType = function (ad) {
   return RoomTypes[ad.offer.type.toUpperCase()];
 };
+
+/** Функции, создающие хранилище для созданных удобств и фото */
 
 const getFeatures = function (array) {
   const featuresFragment = document.createDocumentFragment();
@@ -50,6 +53,8 @@ const getPhotos = function (array) {
   return photosFragment;
 };
 
+/** Фукнция, создания карточки объявления */
+
 const createCard = function (ad) {
   const cardOffer = newCardTemplate.cloneNode(true);
 
@@ -61,6 +66,8 @@ const createCard = function (ad) {
   const timeCardOffer = cardOffer.querySelector('.popup__text--time');
   const descriptionCardOffer = cardOffer.querySelector('.popup__description');
   const avatarCardOffer = cardOffer.querySelector('.popup__avatar');
+  const featuresListCardOffer = cardOffer.querySelector('.popup__features');
+  const photosCardOffer = cardOffer.querySelector('.popup__photos');
 
   titleCardOffer.textContent = ad.offer.title;
   addressCardOffer.textContent = ad.offer.address;
@@ -72,36 +79,65 @@ const createCard = function (ad) {
   descriptionCardOffer.textContent = ad.offer.description;
   avatarCardOffer.src = ad.author.avatar;
 
-  const featuresListCardOffer = cardOffer.querySelector('.popup__features');
-  featuresListCardOffer.innerHTML = '';
-  const photosCardOffer = cardOffer.querySelector('.popup__photos');
-  photosCardOffer.innerHTML = '';
-  featuresListCardOffer.appendChild(getFeatures(ad.offer.features));
-  photosCardOffer.appendChild(getPhotos(ad.offer.photos));
+  if (ad.offer.features.length === 0) {
+    featuresListCardOffer.remove();
+  } else {
+    featuresListCardOffer.innerHTML = '';
+    featuresListCardOffer.appendChild(getFeatures(ad.offer.features));
+  }
+
+  if (ad.offer.photos.length === 0) {
+    photosCardOffer.remove();
+  } else {
+    photosCardOffer.innerHTML = '';
+    photosCardOffer.appendChild(getPhotos(ad.offer.photos));
+  }
 
   return cardOffer;
 };
 
-const showSuccessBlock = function () {
-  const successBlock  = newSuccessTemplate.cloneNode(true);
+/** Фукнции, выводящие блоки с удачным выполнением и с ошибкой при отправке формы */
 
-  main.append(successBlock);
-};
-
-const showErrorBlock = function () {
-  const errorBlock  = newErrorTemplate.cloneNode(true);
-
-  errorBlock.addEventListener('click', function () {
-    errorBlock.remove();
+const closeBlock = (block) => {
+  block.addEventListener('click', () => {
+    block.remove();
   });
 
-  window.addEventListener('keydown', function (evt) {
+  window.addEventListener('keydown', (evt) => {
     if (evt.keyCode === 27) {
-      errorBlock.remove();
+      block.remove();
     }
   });
+};
+
+const showSuccessBlock = () => {
+  const successBlock = newSuccessTemplate.cloneNode(true);
+  successBlock.style.zIndex = 400;
+  main.append(successBlock);
+  closeBlock(successBlock);
+};
+
+const showErrorBlock = () => {
+  const errorBlock = newErrorTemplate.cloneNode(true);
+  errorBlock.style.zIndex = 400;
+  main.append(errorBlock);
+  closeBlock(errorBlock);
+};
+
+/** Фукнция, выводящая блок с ошибкой при запросе на получение данных с сервера */
+
+const showErrorBlockGetData = () => {
+  const errorBlock = newErrorTemplate.cloneNode(true);
+  const errorMessage = errorBlock.querySelector('.error__message');
+  const errorBtn = errorBlock.querySelector('.error__button');
+  errorBtn.remove();
+  errorMessage.textContent = 'Упс, что-то пошло не так :( \n Попробуй проверить соединение';
+  errorBlock.style.zIndex = 400;
 
   main.append(errorBlock);
-}
 
-export {createCard, showSuccessBlock, showErrorBlock};
+  // Нужно ли в данном случае закрытие окна?
+  closeBlock(errorBlock);
+};
+
+export { createCard, showSuccessBlock, showErrorBlock, showErrorBlockGetData };

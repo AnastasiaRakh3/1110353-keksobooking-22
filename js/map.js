@@ -9,11 +9,12 @@ const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters s
 const mapCanvas = document.querySelector('.map__canvas');
 const TOKYO_CENTER = {
   lat: 35.685471,
-  lng: 139.753590,
+  lng: 139.75359,
 };
 
+/** Отключение формы */
 
-const makeDisabledForms = function () {
+const makeDisabledForms = () => {
   addForm.classList.add('ad-form--disabled');
   filtersMapForm.classList.add('map__filters--disabled');
 
@@ -24,7 +25,9 @@ const makeDisabledForms = function () {
 
 makeDisabledForms();
 
-const makeAbledForms = function () {
+/** Активация формы при загрузке страницы */
+
+const makeAbledForms = () => {
   addForm.classList.remove('ad-form--disabled');
   filtersMapForm.classList.remove('map__filters--disabled');
 
@@ -46,10 +49,11 @@ const map = leaflet
     12,
   );
 
+/** Добавление слоя на созданную карту */
+
 leaflet
   .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   })
   .addTo(map);
 
@@ -58,6 +62,8 @@ const mainPinIcon = leaflet.icon({
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
+
+/** Создание главного пина и добавление его на карту */
 
 const mainPinMarker = leaflet.marker(
   {
@@ -72,9 +78,10 @@ const mainPinMarker = leaflet.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', (evt) => {
-  evt.target.getLatLng();
-});
+/** Создание метки на каждое полученное объявление
+ *  Привязка балуна к каждой метке
+ *  Создание карточки в этом балуне
+ */
 
 const initMap = (serverOffers) => {
   serverOffers.forEach((add) => {
@@ -94,22 +101,26 @@ const initMap = (serverOffers) => {
       },
     );
 
-    marker
-      .addTo(map)
-      .bindPopup(
-        createCard(add),
-        {
-          keepInView: true,
-        });
+    marker.addTo(map).bindPopup(createCard(add), {
+      keepInView: true,
+    });
   });
-}
+};
 
-const showLatLng = (input) => {
+/** Функция, выводящая локацию главного пина в нужное поле */
+
+const showLatLng = (field) => {
   mainPinMarker.on('moveend', (evt) => {
     const latLngObj = evt.target.getLatLng();
-    const addressText = `${latLngObj.lat.toFixed(5)}, ${latLngObj.lng.toFixed(5)}`;
-    input.value = addressText;
+    const addressPinText = `${latLngObj.lat.toFixed(5)}, ${latLngObj.lng.toFixed(5)}`;
+    field.value = addressPinText;
   });
-}
+};
 
-export {addForm, initMap, showLatLng, TOKYO_CENTER};
+/** Функция, возвращающая главный пин в исходное положение */
+
+const resetLocation = () => {
+  mainPinMarker.setLatLng(TOKYO_CENTER);
+};
+
+export { addForm, initMap, showLatLng, TOKYO_CENTER, resetLocation };
