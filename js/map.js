@@ -12,6 +12,7 @@ const TOKYO_CENTER = {
   lng: 139.753590,
 };
 
+// Отключаем форму
 
 const makeDisabledForms = function () {
   addForm.classList.add('ad-form--disabled');
@@ -23,6 +24,8 @@ const makeDisabledForms = function () {
 };
 
 makeDisabledForms();
+
+// Активируем форму при загрузке страницы
 
 const makeAbledForms = function () {
   addForm.classList.remove('ad-form--disabled');
@@ -46,6 +49,8 @@ const map = leaflet
     12,
   );
 
+// Добавим слой на нашу созданную карту
+
 leaflet
   .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
@@ -58,6 +63,8 @@ const mainPinIcon = leaflet.icon({
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
+
+// Создаем главный пин и добавляем на карту
 
 const mainPinMarker = leaflet.marker(
   {
@@ -72,9 +79,9 @@ const mainPinMarker = leaflet.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', (evt) => {
-  evt.target.getLatLng();
-});
+// Создаем метки на каждое полученное объявление
+// Привязываем к каждой метке балун
+// Создаем карточку в этом балуне
 
 const initMap = (serverOffers) => {
   serverOffers.forEach((add) => {
@@ -104,12 +111,20 @@ const initMap = (serverOffers) => {
   });
 }
 
-const showLatLng = (input) => {
+// Создаем функцию, которая будет выводить локацию главного пина в нужное поле
+
+const showLatLng = (field) => {
   mainPinMarker.on('moveend', (evt) => {
     const latLngObj = evt.target.getLatLng();
     const addressText = `${latLngObj.lat.toFixed(5)}, ${latLngObj.lng.toFixed(5)}`;
-    input.value = addressText;
+    field.value = addressText;
   });
 }
 
-export {addForm, initMap, showLatLng, TOKYO_CENTER};
+// Создаю функцию, которая возвращает главный пин на исходное место
+
+const resetLocation = () => {
+  mainPinMarker.setLatLng(TOKYO_CENTER);
+}
+
+export {addForm, initMap, showLatLng, TOKYO_CENTER, resetLocation};

@@ -1,37 +1,40 @@
 'use strict';
 
-import {addForm, showLatLng, TOKYO_CENTER} from './map.js';
+import {addForm, showLatLng, TOKYO_CENTER, resetLocation} from './map.js';
 import {sendData} from './api.js';
-import {showErrorBlock} from './template.js';
+import {showSuccessBlock, showErrorBlock} from './template.js';
 
 const housingTypeSelect = addForm.querySelector('#type');
 const pricePerDayInput = addForm.querySelector('#price');
 const timeInInput = addForm.querySelector('#timein');
 const timeOutInput = addForm.querySelector('#timeout');
 
-const roomNumberinput = addForm.querySelector('#room_number');
-const capacityinput = addForm.querySelector('#capacity');
+const roomNumberInput = addForm.querySelector('#room_number');
+const capacityInput = addForm.querySelector('#capacity');
 const formBtnSubmit = addForm.querySelector('.ad-form__submit');
 
 const allFormFields = addForm.elements;
 const adFormBtn = addForm.querySelector('.ad-form__submit');
 
 const addressInput = addForm.querySelector('#address');
-const addressDefault = `${TOKYO_CENTER.lat.toFixed(5)}, ${TOKYO_CENTER.lng.toFixed(5)}`
-addressInput.value = addressDefault;
-showLatLng(addressInput);
 
-// Валидация полей чекина и чекаута
-
-const minPrices = {
+const MinPrices = {
   BUNGALOW: 0,
   FLAT: 1000,
   HOUSE: 5000,
   PALACE: 10000,
 };
 
+// Записываем в поле адреса локацию главного пина
+
+const addressDefault = `${TOKYO_CENTER.lat.toFixed(5)}, ${TOKYO_CENTER.lng.toFixed(5)}`
+addressInput.value = addressDefault;
+showLatLng(addressInput);
+
+// Валидация полей чекина и чекаута и полей цены с типом жилья
+
 const selectMinPrice = function() {
-  const minPrice = minPrices[housingTypeSelect.value.toUpperCase()];
+  const minPrice = MinPrices[housingTypeSelect.value.toUpperCase()];
   pricePerDayInput.min =  minPrice;
   pricePerDayInput.placeholder =  minPrice;
 }
@@ -53,13 +56,13 @@ timeOutInput.addEventListener('change', synchronizeTimeIn);
 // Валидация полей кол-ва комнат и кол-ва гостей
 
 const checkRoomsGuests = function () {
-  if(Number(capacityinput.value) > Number(roomNumberinput.value)) {
-    capacityinput.setCustomValidity('Не допустимый вариант выбора количества гостей для выбранного колличества комнат');
-  } else if(!(capacityinput.value === '0') && roomNumberinput.value === '100' || capacityinput.value === '0' && !(roomNumberinput.value === '100')) {
-    capacityinput.setCustomValidity('Для этого вариапта только - "100 комнат - не для гостей"');
+  if(Number(capacityInput.value) > Number(roomNumberInput.value)) {
+    capacityInput.setCustomValidity('Не допустимый вариант выбора количества гостей для выбранного колличества комнат');
+  } else if(!(capacityInput.value === '0') && roomNumberInput.value === '100' || capacityInput.value === '0' && !(roomNumberInput.value === '100')) {
+    capacityInput.setCustomValidity('Для этого вариапта только - "100 комнат - не для гостей"');
   }
   else {
-    capacityinput.setCustomValidity('');
+    capacityInput.setCustomValidity('');
   }
 }
 
@@ -79,7 +82,16 @@ adFormBtn.addEventListener('click', () => {
   }
 });
 
-// Отправка форма
+// Функция в случае успешного отправления формы
+
+const setAllSuccessActions = () => {
+  showSuccessBlock();
+  addForm.reset();
+  resetLocation();
+  addressInput.value = addressDefault;
+}
+
+// Отправка формы
 
 const setUserFormSubmit = (onSuccess) => {
   addForm.addEventListener('submit', (evt) => {
@@ -93,4 +105,4 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {setUserFormSubmit};
+export {setAllSuccessActions, setUserFormSubmit};

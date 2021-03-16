@@ -7,13 +7,14 @@ const newSuccessTemplate= successTemplate.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content;
 const newErrorTemplate = errorTemplate.querySelector('.error');
 const main = document.querySelector('main');
-
 const RoomTypes = {
   FLAT: 'Квартира',
   BUNGALOW: 'Бунгало',
   HOUSE: 'Дом',
   PALACE: 'Дворец',
 };
+
+//  Создадим функцию, которая преобразует название ключа в нужном формате и возвращает значение ключа
 
 const translateType = function (ad) {
   return RoomTypes[ad.offer.type.toUpperCase()];
@@ -61,6 +62,8 @@ const createCard = function (ad) {
   const timeCardOffer = cardOffer.querySelector('.popup__text--time');
   const descriptionCardOffer = cardOffer.querySelector('.popup__description');
   const avatarCardOffer = cardOffer.querySelector('.popup__avatar');
+  const featuresListCardOffer = cardOffer.querySelector('.popup__features');
+  const photosCardOffer = cardOffer.querySelector('.popup__photos');
 
   titleCardOffer.textContent = ad.offer.title;
   addressCardOffer.textContent = ad.offer.address;
@@ -71,37 +74,64 @@ const createCard = function (ad) {
   timeCardOffer.textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
   descriptionCardOffer.textContent = ad.offer.description;
   avatarCardOffer.src = ad.author.avatar;
-
-  const featuresListCardOffer = cardOffer.querySelector('.popup__features');
   featuresListCardOffer.innerHTML = '';
-  const photosCardOffer = cardOffer.querySelector('.popup__photos');
   photosCardOffer.innerHTML = '';
   featuresListCardOffer.appendChild(getFeatures(ad.offer.features));
   photosCardOffer.appendChild(getPhotos(ad.offer.photos));
 
+  if(ad.offer.features.length === 0) {
+    featuresListCardOffer.remove();
+  }
+
+  if(ad.offer.photos.length === 0) {
+    photosCardOffer.remove();
+  }
+
   return cardOffer;
+};
+
+// Фукнции, которые выводят блоки с удачным выполнением и с ошибкой при отправки формы
+
+const closeBlock = (block) => {
+  block.addEventListener('click', () => {
+    block.remove();
+  });
+
+  window.addEventListener('keydown', (evt) => {
+    if (evt.keyCode === 27) {
+      block.remove();
+    }
+  });
 };
 
 const showSuccessBlock = function () {
   const successBlock  = newSuccessTemplate.cloneNode(true);
-
+  successBlock.style.zIndex = 400;
   main.append(successBlock);
+  closeBlock(successBlock);
 };
 
 const showErrorBlock = function () {
   const errorBlock  = newErrorTemplate.cloneNode(true);
+  errorBlock.style.zIndex = 400;
+  main.append(errorBlock);
+  closeBlock(errorBlock);
+};
 
-  errorBlock.addEventListener('click', function () {
-    errorBlock.remove();
-  });
+// Фукнция, которые выводит блок с ошибкой при получении данных с сервера
 
-  window.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 27) {
-      errorBlock.remove();
-    }
-  });
+const showErrorBlockGetData = () => {
+  const errorBlock  = newErrorTemplate.cloneNode(true);
+  const errorMessage = errorBlock.querySelector('.error__message');
+  const errorBtn = errorBlock.querySelector('.error__button');
+  errorBtn.remove();
+  errorMessage.textContent = 'Упс, что-то пошло не так :( \n Попробуй проверить соединение';
+  errorBlock.style.zIndex = 400;
 
   main.append(errorBlock);
+
+  // Нужно ли в данном случае закрытие окна?
+  closeBlock(errorBlock);
 }
 
-export {createCard, showSuccessBlock, showErrorBlock};
+export {createCard, showSuccessBlock, showErrorBlock, showErrorBlockGetData};
