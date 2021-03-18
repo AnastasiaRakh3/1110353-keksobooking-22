@@ -14,34 +14,18 @@ const checkHousingType = (ad) => {
 };
 
 /** Проверка на ценновой диапазон */
-// const checkHousingPrice = (ad) => {
-//   if ('any' === housingPrice.value) {
-//     return true;
-//   }
-//   if ('middle' === housingPrice.value &&
-//       Prices.START_PRICE <= ad.offer.price &&
-//       Prices.END_PRICE > ad.offer.price) {
-//     return true;
-//   }
-//   if ('low' === housingPrice.value && Prices.START_PRICE > ad.offer.price) {
-//     return true;
-//   }
-//   if ('high' === housingPrice.value && Prices.END_PRICE <= ad.offer.price) {
-//     return true;
-//   }
-//   return false;
-// };
 
 const checkHousingPrice = (ad) => {
-  switch (ad) {
-    case housingPrice.value === 'middle':
+  switch (housingPrice.value) {
+    case 'middle':
       return ad.offer.price >= Prices.START_PRICE && ad.offer.price < Prices.END_PRICE;
-    case housingPrice.value === 'low':
+    case 'low':
       return ad.offer.price < Prices.START_PRICE;
-    case housingPrice.value === 'high':
+    case 'high':
       return ad.offer.price >= Prices.END_PRICE;
     default:
-      return housingType.value === 'any';
+      return housingPrice.value === 'any';
+  //     return true;
   }
 };
 
