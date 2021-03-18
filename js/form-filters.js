@@ -25,7 +25,6 @@ const checkHousingPrice = (ad) => {
       return ad.offer.price >= Prices.END_PRICE;
     default:
       return housingPrice.value === 'any';
-  //     return true;
   }
 };
 
