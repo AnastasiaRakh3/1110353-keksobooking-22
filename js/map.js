@@ -3,19 +3,18 @@
 import { createCard } from './template.js';
 import { filtersMapForm, filterPins, setFilterOptionsChange } from './form-filters.js';
 
+const TOKYO_CENTER = {lat: 35.685471, lng: 139.75359};
+const MapOptions = {
+  MAP_SCALE: 10,
+  ICON_MAIN_WIDTH: 52,
+  ICON_MAIN_HEIGTH: 52,
+  ICON_WIDTH: 40,
+  ICON_HEIGTH: 40,
+};
 const leaflet = window.L;
 const addForm = document.querySelector('.ad-form');
 const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
 const mapCanvas = document.querySelector('.map__canvas');
-const TOKYO_CENTER = {
-  lat: 35.685471,
-  lng: 139.75359,
-};
-const MAP_SCALE = 10;
-const ICON_MAIN_WIDTH = 52;
-const ICON_MAIN_HEIGTH = 52;
-const ICON_WIDTH = 40;
-const ICON_HEIGTH = 40;
 let markers = [];
 const serverOffers = [];
 
@@ -52,7 +51,7 @@ const map = leaflet
       lat: TOKYO_CENTER.lat,
       lng: TOKYO_CENTER.lng,
     },
-    MAP_SCALE,
+    MapOptions.MAP_SCALE,
   );
 
 /** Добавление слоя на созданную карту */
@@ -64,8 +63,8 @@ leaflet
 
 const mainPinIcon = leaflet.icon({
   iconUrl: 'img/main-pin.svg',
-  iconSize: [ICON_MAIN_WIDTH, ICON_MAIN_HEIGTH],
-  iconAnchor: [ICON_MAIN_WIDTH/2, ICON_MAIN_HEIGTH],
+  iconSize: [MapOptions.ICON_MAIN_WIDTH, MapOptions.ICON_MAIN_HEIGTH],
+  iconAnchor: [MapOptions.ICON_MAIN_WIDTH/2, MapOptions.ICON_MAIN_HEIGTH],
 });
 
 /** Создание главного пина и добавление его на карту */
@@ -82,7 +81,6 @@ const mainPinMarker = leaflet.marker(
 
 mainPinMarker.addTo(map);
 
-
 /** Функция, очищающая метки на карте */
 const clearMap = () => {
   markers.forEach((marker)=> {
@@ -90,7 +88,6 @@ const clearMap = () => {
   })
   markers = [];
 };
-
 
 /** Очистка отрисованных маркеров
  *  Создание метки на каждое отфильтрованное объявление
@@ -103,8 +100,8 @@ const renderPins = (pins) => {
   filterPins(pins).forEach((ad) => {
     const icon = leaflet.icon({
       iconUrl: 'img/pin.svg',
-      iconSize: [ICON_WIDTH, ICON_HEIGTH],
-      iconAnchor: [ICON_WIDTH/2, ICON_HEIGTH],
+      iconSize: [MapOptions.ICON_WIDTH, MapOptions.ICON_HEIGTH],
+      iconAnchor: [MapOptions.ICON_WIDTH/2, MapOptions.ICON_HEIGTH],
     });
 
     const marker = leaflet.marker(
@@ -144,7 +141,6 @@ const showLatLng = (field) => {
 const resetLocation = () => {
   mainPinMarker.setLatLng(TOKYO_CENTER);
 };
-
 
 /** Загрузка данных и их фильтрация на карте */
 const setAllActionsOnMap = (offers) => {

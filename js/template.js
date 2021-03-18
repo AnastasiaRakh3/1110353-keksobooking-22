@@ -1,5 +1,11 @@
 'use strict';
 
+const RoomTypes = {
+  FLAT: 'Квартира',
+  BUNGALOW: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец',
+};
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
 const successTemplate = document.querySelector('#success').content;
@@ -7,12 +13,6 @@ const newSuccessTemplate = successTemplate.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content;
 const newErrorTemplate = errorTemplate.querySelector('.error');
 const main = document.querySelector('main');
-const RoomTypes = {
-  FLAT: 'Квартира',
-  BUNGALOW: 'Бунгало',
-  HOUSE: 'Дом',
-  PALACE: 'Дворец',
-};
 
 /** Функция, преобразующая название ключа в нужный формат и возвращая значение ключа */
 

@@ -4,6 +4,12 @@ import { addForm, showLatLng, TOKYO_CENTER, resetLocation } from './map.js';
 import { sendData } from './api.js';
 import { showSuccessBlock, showErrorBlock } from './template.js';
 
+const MinPrices = {
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOUSE: 5000,
+  PALACE: 10000,
+};
 const housingTypeSelect = addForm.querySelector('#type');
 const pricePerDayInput = addForm.querySelector('#price');
 const timeInInput = addForm.querySelector('#timein');
@@ -17,13 +23,6 @@ const allFormFields = addForm.elements;
 const adFormBtn = addForm.querySelector('.ad-form__submit');
 
 const addressInput = addForm.querySelector('#address');
-
-const MinPrices = {
-  BUNGALOW: 0,
-  FLAT: 1000,
-  HOUSE: 5000,
-  PALACE: 10000,
-};
 
 /** Функция, записывающая в поле локацию по умолчанию */
 const setAddressDefault = (field) => {

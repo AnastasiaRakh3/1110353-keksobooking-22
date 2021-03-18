@@ -1,39 +1,48 @@
 'use strict';
 
+const Prices = {START_PRICE: 10000, END_PRICE: 50000};
 const filtersMapForm = document.querySelector('.map__filters');
 const housingType = filtersMapForm.querySelector('#housing-type');
 const housingPrice = filtersMapForm.querySelector('#housing-price');
 const housingRooms = filtersMapForm.querySelector('#housing-rooms');
 const housingGuests = filtersMapForm.querySelector('#housing-guests');
 const featuresMapForm = filtersMapForm.querySelectorAll('.map__features input');
-const START_PRICE = 10000;
-const END_PRICE = 50000;
 
 /** Проверка на совпадение типа комнаты */
 const checkHousingType = (ad) => {
-  if (housingType.value === 'any') {
-    return true;
-  }
-  return housingType.value === ad.offer.type;
+  return housingType.value === 'any' || housingType.value === ad.offer.type;
 };
 
 /** Проверка на ценновой диапазон */
+// const checkHousingPrice = (ad) => {
+//   if ('any' === housingPrice.value) {
+//     return true;
+//   }
+//   if ('middle' === housingPrice.value &&
+//       Prices.START_PRICE <= ad.offer.price &&
+//       Prices.END_PRICE > ad.offer.price) {
+//     return true;
+//   }
+//   if ('low' === housingPrice.value && Prices.START_PRICE > ad.offer.price) {
+//     return true;
+//   }
+//   if ('high' === housingPrice.value && Prices.END_PRICE <= ad.offer.price) {
+//     return true;
+//   }
+//   return false;
+// };
+
 const checkHousingPrice = (ad) => {
-  if ('any' === housingPrice.value) {
-    return true;
+  switch (ad) {
+    case housingPrice.value === 'middle':
+      return ad.offer.price >= Prices.START_PRICE && ad.offer.price < Prices.END_PRICE;
+    case housingPrice.value === 'low':
+      return ad.offer.price < Prices.START_PRICE;
+    case housingPrice.value === 'high':
+      return ad.offer.price >= Prices.END_PRICE;
+    default:
+      return housingType.value === 'any';
   }
-  if ('middle' === housingPrice.value &&
-       START_PRICE <= ad.offer.price &&
-       END_PRICE > ad.offer.price) {
-    return true;
-  }
-  if ('low' === housingPrice.value && START_PRICE > ad.offer.price) {
-    return true;
-  }
-  if ('high' === housingPrice.value && END_PRICE <= ad.offer.price) {
-    return true;
-  }
-  return false;
 };
 
 /** Проверка на совпадение кол-ва комнат */
