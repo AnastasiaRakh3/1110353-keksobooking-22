@@ -26,7 +26,6 @@ const MinPrices = {
 };
 
 /** Функция, записывающая в поле локацию по умолчанию */
-
 const setAddressDefault = (field) => {
   const addressDefault = `${TOKYO_CENTER.lat.toFixed(5)}, ${TOKYO_CENTER.lng.toFixed(5)}`;
   field.value = addressDefault;
@@ -35,11 +34,9 @@ const setAddressDefault = (field) => {
 setAddressDefault(addressInput);
 
 /** Запись локации главного пина при движении в поле адреса */
-
 showLatLng(addressInput);
 
 /** Валидация полей чекина и чекаута и полей цены с типом жилья */
-
 const selectMinPrice = () => {
   const minPrice = MinPrices[housingTypeSelect.value.toUpperCase()];
   pricePerDayInput.min = minPrice;
@@ -61,7 +58,6 @@ timeInInput.addEventListener('change', synchronizeTimeOut);
 timeOutInput.addEventListener('change', synchronizeTimeIn);
 
 /** Валидация полей кол-ва комнат и кол-ва гостей */
-
 const checkRoomsGuests = () => {
   if (Number(capacityInput.value) > Number(roomNumberInput.value)) {
     capacityInput.setCustomValidity(
@@ -82,7 +78,6 @@ const checkRoomsGuests = () => {
 formBtnSubmit.addEventListener('click', checkRoomsGuests);
 
 /** Проверка на валидацию всей формы, выделяя красной рамкой неправильно введенные поля */
-
 for (let i = 0; i < allFormFields.length; i++) {
   allFormFields[i].addEventListener('invalid', (evt) => {
     evt.target.style.border = 'solid 3px red';
@@ -96,7 +91,6 @@ adFormBtn.addEventListener('click', () => {
 });
 
 /** Функция в случае успешного отправления формы */
-
 const setAllSuccessActions = () => {
   showSuccessBlock();
   addForm.reset();
@@ -105,7 +99,6 @@ const setAllSuccessActions = () => {
 };
 
 /** Отправка формы */
-
 const setUserFormSubmit = (onSuccess) => {
   addForm.addEventListener('submit', (evt) => {
     evt.preventDefault();

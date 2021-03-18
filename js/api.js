@@ -3,8 +3,8 @@
 const getData = (onSuccess, onFail) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
-    .then((serverOffers) => {
-      onSuccess(serverOffers);
+    .then((json) => {
+      onSuccess(json);
     })
     .catch(() => onFail);
 };

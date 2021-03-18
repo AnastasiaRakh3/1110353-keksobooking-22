@@ -1,19 +1,25 @@
 'use strict';
 
 import { createCard } from './template.js';
+import { filtersMapForm, filterPins, setFilterOptionsChange } from './form-filters.js';
 
 const leaflet = window.L;
 const addForm = document.querySelector('.ad-form');
-const filtersMapForm = document.querySelector('.map__filters');
 const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
 const mapCanvas = document.querySelector('.map__canvas');
 const TOKYO_CENTER = {
   lat: 35.685471,
   lng: 139.75359,
 };
+const MAP_SCALE = 10;
+const ICON_MAIN_WIDTH = 52;
+const ICON_MAIN_HEIGTH = 52;
+const ICON_WIDTH = 40;
+const ICON_HEIGTH = 40;
+let markers = [];
+const serverOffers = [];
 
 /** Отключение формы */
-
 const makeDisabledForms = () => {
   addForm.classList.add('ad-form--disabled');
   filtersMapForm.classList.add('map__filters--disabled');
@@ -26,7 +32,6 @@ const makeDisabledForms = () => {
 makeDisabledForms();
 
 /** Активация формы при загрузке страницы */
-
 const makeAbledForms = () => {
   addForm.classList.remove('ad-form--disabled');
   filtersMapForm.classList.remove('map__filters--disabled');
@@ -36,6 +41,7 @@ const makeAbledForms = () => {
   }
 };
 
+/** Отрисовка при загрузке страницы */
 const map = leaflet
   .map(mapCanvas)
   .on('load', () => {
@@ -46,11 +52,10 @@ const map = leaflet
       lat: TOKYO_CENTER.lat,
       lng: TOKYO_CENTER.lng,
     },
-    12,
+    MAP_SCALE,
   );
 
 /** Добавление слоя на созданную карту */
-
 leaflet
   .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -59,12 +64,11 @@ leaflet
 
 const mainPinIcon = leaflet.icon({
   iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [ICON_MAIN_WIDTH, ICON_MAIN_HEIGTH],
+  iconAnchor: [ICON_MAIN_WIDTH/2, ICON_MAIN_HEIGTH],
 });
 
 /** Создание главного пина и добавление его на карту */
-
 const mainPinMarker = leaflet.marker(
   {
     lat: TOKYO_CENTER.lat,
@@ -78,37 +82,56 @@ const mainPinMarker = leaflet.marker(
 
 mainPinMarker.addTo(map);
 
-/** Создание метки на каждое полученное объявление
+
+/** Функция, очищающая метки на карте */
+const clearMap = () => {
+  markers.forEach((marker)=> {
+    marker.remove();
+  })
+  markers = [];
+};
+
+
+/** Очистка отрисованных маркеров
+ *  Создание метки на каждое отфильтрованное объявление
  *  Привязка балуна к каждой метке
  *  Создание карточки в этом балуне
+ *  Добавление отрисованного маркера в массив с маркерами, чтобы потом его можно было очистить при фильтрации
  */
-
-const initMap = (serverOffers) => {
-  serverOffers.forEach((add) => {
+const renderPins = (pins) => {
+  clearMap();
+  filterPins(pins).forEach((ad) => {
     const icon = leaflet.icon({
       iconUrl: 'img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconSize: [ICON_WIDTH, ICON_HEIGTH],
+      iconAnchor: [ICON_WIDTH/2, ICON_HEIGTH],
     });
 
     const marker = leaflet.marker(
       {
-        lat: add.location.lat,
-        lng: add.location.lng,
+        lat: ad.location.lat,
+        lng: ad.location.lng,
       },
       {
         icon,
       },
     );
 
-    marker.addTo(map).bindPopup(createCard(add), {
+    marker.addTo(map).bindPopup(createCard(ad), {
       keepInView: true,
     });
+
+    markers.push(marker);
   });
 };
 
-/** Функция, выводящая локацию главного пина в нужное поле */
+/** Функция, инициализирующая модуль с копированными данных */
+const initMap = (pins) => {
+  serverOffers.push(...pins);
+  renderPins(serverOffers);
+};
 
+/** Функция, выводящая локацию главного пина в нужное поле */
 const showLatLng = (field) => {
   mainPinMarker.on('moveend', (evt) => {
     const latLngObj = evt.target.getLatLng();
@@ -118,9 +141,15 @@ const showLatLng = (field) => {
 };
 
 /** Функция, возвращающая главный пин в исходное положение */
-
 const resetLocation = () => {
   mainPinMarker.setLatLng(TOKYO_CENTER);
 };
 
-export { addForm, initMap, showLatLng, TOKYO_CENTER, resetLocation };
+
+/** Загрузка данных и их фильтрация на карте */
+const setAllActionsOnMap = (offers) => {
+  initMap(offers);
+  setFilterOptionsChange(() => renderPins(offers));
+}
+
+export { addForm, initMap, showLatLng, TOKYO_CENTER, resetLocation, setAllActionsOnMap };
