@@ -49,8 +49,6 @@ fileAdPhotosChooser.addEventListener('change', () => {
         const adPhotoWrapperNew = document.createElement('div');
         newPhoto.src = reader.result;
         newPhoto.alt = 'Фото жилья';
-        // newPhoto.width = '70';
-        // newPhoto.height = '70';
         adPhotoWrapperNew.classList.add('ad-form__photo');
 
         adPhotoWrapperNew.appendChild(newPhoto);

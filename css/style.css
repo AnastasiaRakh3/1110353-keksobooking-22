@@ -583,7 +583,8 @@ fieldset {
 
 .ad-form__photo img  {
   width: 100%;
-  /* а что с высотой? */
+  height: 100%;
+  object-fit: cover;
 }
 
 .ad-form__element--submit {
