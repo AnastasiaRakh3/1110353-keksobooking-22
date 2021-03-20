@@ -30,18 +30,12 @@ const checkHousingPrice = (ad) => {
 
 /** Проверка на совпадение кол-ва комнат */
 const checkHousingRooms = (ad) => {
-  if (housingRooms.value === 'any') {
-    return true;
-  }
-  return Number(housingRooms.value) === ad.offer.rooms;
+  return housingRooms.value === 'any' || Number(housingRooms.value) === ad.offer.rooms;
 };
 
 /** Проверка на совпадение кол-ва гостей */
 const checkHousingGuests = (ad) => {
-  if (housingGuests.value === 'any') {
-    return true;
-  }
-  return Number(housingGuests.value) === ad.offer.guests;
+  return housingGuests.value === 'any' || Number(housingGuests.value) === ad.offer.guests;
 };
 
 /** Проверка на совпадение удобств */
