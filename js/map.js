@@ -11,6 +11,8 @@ const MapOptions = {
   ICON_WIDTH: 40,
   ICON_HEIGTH: 40,
 };
+const RENDER_DELAY = 500;
+const debounce = window._.debounce;
 const leaflet = window.L;
 const addForm = document.querySelector('.ad-form');
 const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
@@ -82,6 +84,7 @@ const mainPinMarker = leaflet.marker(
 mainPinMarker.addTo(map);
 
 /** Функция, очищающая метки на карте */
+// Зачем мы удаляем каждый элемент маркера и потом очищаем маркеры?
 const clearMap = () => {
   markers.forEach((marker)=> {
     marker.remove();
@@ -145,7 +148,12 @@ const resetLocation = () => {
 /** Загрузка данных и их фильтрация на карте */
 const setAllActionsOnMap = (offers) => {
   initMap(offers);
-  setFilterOptionsChange(() => renderPins(offers));
+  setFilterOptionsChange(
+    debounce(
+      () => renderPins(offers),
+      RENDER_DELAY,
+    ),
+  );
 }
 
 export { addForm, initMap, showLatLng, TOKYO_CENTER, resetLocation, setAllActionsOnMap };

@@ -2,6 +2,7 @@ import { getData } from './api.js';
 import { showErrorBlockGetData } from './template.js';
 import { setUserFormSubmit, setAllSuccessActions } from './form.js';
 import { setAllActionsOnMap } from './map.js';
+import './photo.js';
 
 const main = () => {
   getData (
