@@ -14,7 +14,7 @@ const MapOptions = {
 const RENDER_DELAY = 500;
 const debounce = window._.debounce;
 const leaflet = window.L;
-const addForm = document.querySelector('.ad-form');
+const adForm = document.querySelector('.ad-form');
 const formFields = document.querySelectorAll('.ad-form fieldset, .map__filters select, .map__filters fieldset');
 const mapCanvas = document.querySelector('.map__canvas');
 let markers = [];
@@ -22,7 +22,7 @@ const serverOffers = [];
 
 /** Отключение формы */
 const makeDisabledForms = () => {
-  addForm.classList.add('ad-form--disabled');
+  adForm.classList.add('ad-form--disabled');
   filtersMapForm.classList.add('map__filters--disabled');
 
   for (let i = 0; i < formFields.length; i++) {
@@ -34,7 +34,7 @@ makeDisabledForms();
 
 /** Активация формы при загрузке страницы */
 const makeAbledForms = () => {
-  addForm.classList.remove('ad-form--disabled');
+  adForm.classList.remove('ad-form--disabled');
   filtersMapForm.classList.remove('map__filters--disabled');
 
   for (let i = 0; i < formFields.length; i++) {
@@ -155,4 +155,4 @@ const setAllActionsOnMap = (offers) => {
   );
 }
 
-export { addForm, initMap, showLatLng, TOKYO_CENTER, resetLocation, setAllActionsOnMap };
+export { adForm, initMap, showLatLng, TOKYO_CENTER, resetLocation, setAllActionsOnMap };

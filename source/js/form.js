@@ -1,6 +1,6 @@
 'use strict';
 
-import { addForm, showLatLng, TOKYO_CENTER, resetLocation } from './map.js';
+import { adForm, showLatLng, TOKYO_CENTER, resetLocation } from './map.js';
 import { sendData } from './api.js';
 import { showSuccessBlock, showErrorBlock } from './template.js';
 
@@ -10,19 +10,19 @@ const MinPrices = {
   HOUSE: 5000,
   PALACE: 10000,
 };
-const housingTypeSelect = addForm.querySelector('#type');
-const pricePerDayInput = addForm.querySelector('#price');
-const timeInInput = addForm.querySelector('#timein');
-const timeOutInput = addForm.querySelector('#timeout');
+const housingTypeSelect = adForm.querySelector('#type');
+const pricePerDayInput = adForm.querySelector('#price');
+const timeInInput = adForm.querySelector('#timein');
+const timeOutInput = adForm.querySelector('#timeout');
 
-const roomNumberInput = addForm.querySelector('#room_number');
-const capacityInput = addForm.querySelector('#capacity');
-const formButtonSubmit = addForm.querySelector('.ad-form__submit');
+const roomNumberInput = adForm.querySelector('#room_number');
+const capacityInput = adForm.querySelector('#capacity');
+const formButtonSubmit = adForm.querySelector('.ad-form__submit');
 
-const allFormFields = addForm.elements;
-const adFormButton= addForm.querySelector('.ad-form__submit');
+const allFormFields = adForm.elements;
+const adFormButton= adForm.querySelector('.ad-form__submit');
 
-const addressInput = addForm.querySelector('#address');
+const addressInput = adForm.querySelector('#address');
 
 /** Функция, записывающая в поле локацию по умолчанию */
 const setAddressDefault = (field) => {
@@ -92,14 +92,14 @@ adFormButton.addEventListener('click', () => {
 /** Функция в случае успешного отправления формы */
 const setAllSuccessActions = () => {
   showSuccessBlock();
-  addForm.reset();
+  adForm.reset();
   resetLocation();
   setAddressDefault(addressInput);
 };
 
 /** Отправка формы */
 const setUserFormSubmit = (onSuccess) => {
-  addForm.addEventListener('submit', (evt) => {
+  adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     sendData(

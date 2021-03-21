@@ -20,10 +20,10 @@ const translateType = (ad) => {
 };
 
 /** Функции, создающие хранилище для созданных удобств и фото */
-const getFeatures = (array) => {
+const getFeatures = (features) => {
   const featuresFragment = document.createDocumentFragment();
 
-  array.forEach((value) => {
+  features.forEach((value) => {
     const newFeatureElement = document.createElement('li');
     newFeatureElement.classList.add('popup__feature');
     let newFeatureClass = 'popup__feature--';
@@ -35,10 +35,10 @@ const getFeatures = (array) => {
   return featuresFragment;
 };
 
-const getPhotos = (array) => {
+const getPhotos = (photos) => {
   const photosFragment = document.createDocumentFragment();
 
-  array.forEach((value) => {
+  photos.forEach((value) => {
     const newPhotoElement = document.createElement('img');
     newPhotoElement.classList.add('popup__photo');
     newPhotoElement.width = '45';
