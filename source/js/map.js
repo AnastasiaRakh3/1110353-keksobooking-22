@@ -84,7 +84,6 @@ const mainPinMarker = leaflet.marker(
 mainPinMarker.addTo(map);
 
 /** Функция, очищающая метки на карте */
-// Зачем мы удаляем каждый элемент маркера и потом очищаем маркеры?
 const clearMap = () => {
   markers.forEach((marker)=> {
     marker.remove();

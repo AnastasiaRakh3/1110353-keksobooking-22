@@ -15,14 +15,12 @@ const newErrorTemplate = errorTemplate.querySelector('.error');
 const main = document.querySelector('main');
 
 /** Функция, преобразующая название ключа в нужный формат и возвращая значение ключа */
-
-const translateType = function (ad) {
+const translateType = (ad) => {
   return RoomTypes[ad.offer.type.toUpperCase()];
 };
 
 /** Функции, создающие хранилище для созданных удобств и фото */
-
-const getFeatures = function (array) {
+const getFeatures = (array) => {
   const featuresFragment = document.createDocumentFragment();
 
   array.forEach((value) => {
@@ -37,7 +35,7 @@ const getFeatures = function (array) {
   return featuresFragment;
 };
 
-const getPhotos = function (array) {
+const getPhotos = (array) => {
   const photosFragment = document.createDocumentFragment();
 
   array.forEach((value) => {
@@ -54,8 +52,7 @@ const getPhotos = function (array) {
 };
 
 /** Фукнция, создания карточки объявления */
-
-const createCard = function (ad) {
+const createCard = (ad) => {
   const cardOffer = newCardTemplate.cloneNode(true);
 
   const titleCardOffer = cardOffer.querySelector('.popup__title');
@@ -97,7 +94,6 @@ const createCard = function (ad) {
 };
 
 /** Фукнции, выводящие блоки с удачным выполнением и с ошибкой при отправке формы */
-
 const closeBlock = (block) => {
   block.addEventListener('click', () => {
     block.remove();
@@ -125,12 +121,11 @@ const showErrorBlock = () => {
 };
 
 /** Фукнция, выводящая блок с ошибкой при запросе на получение данных с сервера */
-
 const showErrorBlockGetData = () => {
   const errorBlock = newErrorTemplate.cloneNode(true);
   const errorMessage = errorBlock.querySelector('.error__message');
-  const errorBtn = errorBlock.querySelector('.error__button');
-  errorBtn.remove();
+  const errorButton = errorBlock.querySelector('.error__button');
+  errorButton.remove();
   errorMessage.textContent = 'Упс, что-то пошло не так :( \n Попробуй проверить соединение';
   errorBlock.style.zIndex = 400;
 

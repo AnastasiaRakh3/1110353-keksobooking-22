@@ -14,7 +14,6 @@ const checkHousingType = (ad) => {
 };
 
 /** Проверка на ценновой диапазон */
-
 const checkHousingPrice = (ad) => {
   switch (housingPrice.value) {
     case 'middle':

@@ -17,10 +17,10 @@ const timeOutInput = addForm.querySelector('#timeout');
 
 const roomNumberInput = addForm.querySelector('#room_number');
 const capacityInput = addForm.querySelector('#capacity');
-const formBtnSubmit = addForm.querySelector('.ad-form__submit');
+const formButtonSubmit = addForm.querySelector('.ad-form__submit');
 
 const allFormFields = addForm.elements;
-const adFormBtn = addForm.querySelector('.ad-form__submit');
+const adFormButton= addForm.querySelector('.ad-form__submit');
 
 const addressInput = addForm.querySelector('#address');
 
@@ -74,7 +74,7 @@ const checkRoomsGuests = () => {
   }
 };
 
-formBtnSubmit.addEventListener('click', checkRoomsGuests);
+formButtonSubmit.addEventListener('click', checkRoomsGuests);
 
 /** Проверка на валидацию всей формы, выделяя красной рамкой неправильно введенные поля */
 for (let i = 0; i < allFormFields.length; i++) {
@@ -83,7 +83,7 @@ for (let i = 0; i < allFormFields.length; i++) {
   });
 }
 
-adFormBtn.addEventListener('click', () => {
+adFormButton.addEventListener('click', () => {
   for (let i = 0; i < allFormFields.length; i++) {
     allFormFields[i].removeAttribute('style');
   }
