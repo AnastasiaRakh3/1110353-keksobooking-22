@@ -126,12 +126,10 @@ const showErrorBlockGetData = () => {
   const errorMessage = errorBlock.querySelector('.error__message');
   const errorButton = errorBlock.querySelector('.error__button');
   errorButton.remove();
-  errorMessage.textContent = 'Упс, что-то пошло не так :( \n Попробуй проверить соединение';
+  errorMessage.textContent = 'Упс, что-то пошло не так :( Попробуй проверить соединение';
   errorBlock.style.zIndex = 400;
 
   main.append(errorBlock);
-
-  // Нужно ли в данном случае закрытие окна?
   closeBlock(errorBlock);
 };
 

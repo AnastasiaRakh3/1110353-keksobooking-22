@@ -67,7 +67,7 @@ const checkRoomsGuests = () => {
     (capacityInput.value === '0' && !(roomNumberInput.value === '100'))
   ) {
     capacityInput.setCustomValidity(
-      'Для этого вариапта только - "100 комнат - не для гостей"',
+      'Для этого варианта только - "100 комнат - не для гостей"',
     );
   } else {
     capacityInput.setCustomValidity('');
